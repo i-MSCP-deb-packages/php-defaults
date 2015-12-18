@@ -1,3 +1,9 @@
+php-defaults (24+coinst) experimental; urgency=medium
+
+  * Update supported versions to include 5.6 and 7.0
+
+ -- Ondřej Surý <ondrej@debian.org>  Tue, 26 Jan 2016 12:37:54 +0100
+
 php-defaults (24) unstable; urgency=medium
 
   * Make -v ALL -s ALL default if -v or -s was not specified
@@ -140,3 +146,4 @@ php-defaults (3) unstable; urgency=medium
   * Move the mods-available directory directly under /etc/php
 
  -- Ondřej Surý <ondrej@debian.org>  Tue, 28 Jul 2015 15:00:58 +0200
+<
