@@ -1,3 +1,9 @@
+php-defaults (23+coinst) unstable; urgency=medium
+
+  * Update supported versions to include 5.6 and 7.0
+
+ -- Ondřej Surý <ondrej@debian.org>  Fri, 18 Dec 2015 09:22:57 +0100
+
 php-defaults (23) unstable; urgency=medium
 
   * Add CLI to list of supported SAPIS in sessionclean script
@@ -134,3 +140,4 @@ php-defaults (3) unstable; urgency=medium
   * Move the mods-available directory directly under /etc/php
 
  -- Ondřej Surý <ondrej@debian.org>  Tue, 28 Jul 2015 15:00:58 +0200
+<
