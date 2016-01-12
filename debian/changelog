@@ -1,4 +1,4 @@
-php-defaults (23+coinst) unstable; urgency=medium
+php-defaults (23+coinst) experimental; urgency=medium
 
   * Update supported versions to include 5.6 and 7.0
 
