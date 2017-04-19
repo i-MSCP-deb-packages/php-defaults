@@ -1,3 +1,9 @@
+php-defaults (52) unstable; urgency=medium
+
+  * Change Vcs-* URLs to gitlab.sury.org
+
+ -- Ondřej Surý <ondrej@debian.org>  Wed, 19 Apr 2017 14:52:09 +0200
+
 php-defaults (51) unstable; urgency=medium
 
   * Add lintian-override for missing-build-dependency-for-dh_-command
