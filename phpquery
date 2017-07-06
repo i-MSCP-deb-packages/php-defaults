@@ -49,38 +49,34 @@ check_mod() {
     local live_link_content=$(get_live_link_content $version $sapi $modname $priority)
 
     found=no
+    local state_dir="$(get_state_dir $version $sapi)"
     if [ -e "${live_link}" ] ; then
 	if [ -h "${live_link}" ] ; then
 	    local content="$(readlink "${live_link}")"
 	    if [ "${content}" = "${live_link_content}" ] ; then
-		found=yes
+		if [ -e "${state_dir}/enabled_by_admin/$modname" ]; then
+		    output "$modname (Enabled for $sapi by local administrator)"
+		    return 0
+		elif [ -e "${state_dir}/enabled_by_maint/$modname" ]; then
+		    output "$modname (Enabled for $sapi by maintainer script)"
+		    return 0
+		fi
+		output "$modname (Enabled for $sapi by unknown)"
+		return 0
+	    else
+		output "Module $modname symlink was modified by local administrator."
+		return 34
 	    fi
 	fi
-	if [ "$found" != "yes" ]; then
-	    output "Module $modname symlink was modified by local administrator."
-	    return 34
-	fi
-    fi
-
-    local state_dir="$(get_state_dir $version $sapi)"
-
-    if [ -e "${state_dir}/enabled_by_admin/$modname" ]; then
-	output "$modname (Enabled for $sapi by local administrator)"
-	return 0
-    elif [ -e "${state_dir}/enabled_by_maint/$modname" ]; then
-	output "$modname (Enabled for $sapi by maintainer script)"
-	return 0
-    elif [ -e "${state_dir}/disabled_by_admin/$modname" ]; then
-	output "No module matches $modname (Disabled for $sapi by local administrator)"
-	return 32
-    elif [ -e "${state_dir}/disabled_by_maint/$modname" ]; then
-	output "No module matches $modname (Disabled for $sapi by maintainer script)"
-	return 33
-    elif [ "$found" = "yes" ]; then
-	output "$modname (Enabled for $sapi by unknown)"
-	return 0
     else
-	output "No module matches $modname"
+	if [ -e "${state_dir}/disabled_by_admin/$modname" ]; then
+	    output "No module matches $modname (Disabled for $sapi by local administrator)"
+	    return 32
+	elif [ -e "${state_dir}/disabled_by_maint/$modname" ]; then
+	    output "No module matches $modname (Disabled for $sapi by maintainer script)"
+	    return 33
+	fi
+	output "No module matches $modname (Disabled for $sapi by unknown)"
 	return 1
     fi
 }
