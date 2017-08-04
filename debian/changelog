@@ -1,3 +1,10 @@
+php-defaults (54) unstable; urgency=medium
+
+  * Update Vcs-* fields to https://gitlab.com/deb.sury.org
+  * Soft transition for PHP modules - add PHP 7.1 to supported PHP versions
+
+ -- Ondřej Surý <ondrej@debian.org>  Fri, 04 Aug 2017 10:01:32 +0200
+
 php-defaults (53) unstable; urgency=medium
 
   * phpquery now has non-zero exit status if live-link is missing
