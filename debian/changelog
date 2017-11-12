@@ -1,3 +1,9 @@
+php-defaults (56) unstable; urgency=medium
+
+  * Actually update d/control to contain PHP 7.1 (Closes: #881416)
+
+ -- Ondřej Surý <ondrej@debian.org>  Sun, 12 Nov 2017 03:34:17 +0000
+
 php-defaults (55) unstable; urgency=medium
 
   * Remove PrivateNetwork=true because it's not compatible with 3.16.0
