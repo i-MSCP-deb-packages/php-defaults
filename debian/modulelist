@@ -10,7 +10,6 @@ intl Internationalisation
 json JSON
 ldap LDAP
 mbstring MBSTRING
-mcrypt libmcrypt
 mysql MySQL
 odbc ODBC
 pgsql PostgreSQL
