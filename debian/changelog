@@ -1,3 +1,9 @@
+php-defaults (59) unstable; urgency=medium
+
+  * Regenerate d/control to really get rid of php-mcrypt
+
+ -- Ondřej Surý <ondrej@debian.org>  Mon, 22 Jan 2018 05:35:50 +0000
+
 php-defaults (58) unstable; urgency=medium
 
   * mcrypt extension has been removed in PHP 7.2, remove it from the module list
