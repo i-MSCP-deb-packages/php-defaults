@@ -1,3 +1,11 @@
+php-defaults (60) unstable; urgency=medium
+
+  * Start the soft-transition to PHP 7.2 by adding 7.2 to a list of
+    supported versions and making PHP 7.2 the default Debian version
+    (Closes: #872998)
+
+ -- Ondřej Surý <ondrej@debian.org>  Thu, 25 Jan 2018 09:08:27 +0000
+
 php-defaults (59) unstable; urgency=medium
 
   * Regenerate d/control to really get rid of php-mcrypt
