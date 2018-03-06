@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/sh
 #
 # sessionclean - a script to cleanup stale PHP sessions
 #
@@ -21,38 +21,47 @@
 # IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+set -e
+
 SAPIS="apache2:apache2 apache2filter:apache2 cgi:php@VERSION@ fpm:php-fpm@VERSION@ cli:php@VERSION@"
+# shellcheck disable=SC2016
+CODE_GET_SESSION_CONFIG='foreach (ini_get_all("session") as $k => $v) printf("%s=%s\n", $k, $v["local_value"]);'
 
 # Iterate through all web SAPIs
 (
-proc_names=""
-for version in $(/usr/sbin/phpquery -V); do
-    for sapi in ${SAPIS}; do
-	conf_dir=${sapi%%:*}
-	proc_name=${sapi##*:}
-	if [ -e /etc/php/${version}/${conf_dir}/php.ini ]; then
-	    # Get all session variables once so we don't need to start PHP to get each config option
-	    session_config=$(PHP_INI_SCAN_DIR=/etc/php/${version}/${conf_dir}/conf.d/ php${version} -c /etc/php/${version}/${conf_dir}/php.ini -d "error_reporting='~E_ALL'" -r 'foreach(ini_get_all("session") as $k => $v) echo "$k=".$v["local_value"]."\n";')
-	    save_handler=$(echo "$session_config" | sed -ne 's/^session\.save_handler=\(.*\)$/\1/p')
-	    save_path=$(echo "$session_config" | sed -ne 's/^session\.save_path=\(.*;\)\?\(.*\)$/\2/p')
-	    gc_maxlifetime=$(($(echo "$session_config" | sed -ne 's/^session\.gc_maxlifetime=\(.*\)$/\1/p')/60))
-	    
-	    if [ "$save_handler" = "files" -a -d "$save_path" ]; then
-		proc_names="$proc_names $(echo "$proc_name" | sed -e "s,@VERSION@,$version,")";
-		printf "%s:%s\n" "$save_path" "$gc_maxlifetime"
-	    fi
-	fi
+    proc_names=""
+    for version in $(/usr/sbin/phpquery -V); do
+        for sapi in ${SAPIS}; do
+            conf_dir="${sapi%%:*}"
+            conf_path="/etc/php/${version}/${conf_dir}"
+            proc_name="${sapi##*:}"
+            if [ -e "/etc/php/${version}/${conf_dir}/php.ini" ]; then
+                # Get all session variables once so we don't need to start PHP to get each config option
+                session_config="$(PHP_INI_SCAN_DIR="${conf_path}/conf.d/" "php${version}" -c "${conf_path}/php.ini" -d "error_reporting='~E_ALL'" -r "$CODE_GET_SESSION_CONFIG")"
+                save_handler="$(echo "$session_config" | sed -n -e 's/^session\.save_handler=\(.*\)$/\1/p')"
+                save_path="$(echo "$session_config" | sed -n -e 's/^session\.save_path=\(.*;\)\?\(.*\)$/\2/p')"
+                gc_maxlifetime="$(($(echo "$session_config" | sed -n -e 's/^session\.gc_maxlifetime=\(.*\)$/\1/p') / 60))"
+
+                if [ "$save_handler" = files ] && [ -d "$save_path" ]; then
+                    proc_names="${proc_names} $(echo "$proc_name" | sed -e "s|@VERSION@|${version}|")";
+                    printf '%s:%s\n' "$save_path" "$gc_maxlifetime"
+                fi
+            fi
+        done
     done
-done
-# first find all open session files and touch them (hope it's not massive amount of files)
-for pid in $(pidof $proc_names); do
-    find "/proc/$pid/fd" -ignore_readdir_race -lname "$save_path/sess_*" -exec touch -c {} \; 2>/dev/null
-done ) | \
-    sort -rn -t: -k2,2 | \
-    sort -u -t: -k 1,1 | \
-    while IFS=: read -r save_path gc_maxlifetime; do
-	# find all files older then maxlifetime and delete them
-	find -O3 "$save_path/" -ignore_readdir_race -depth -mindepth 1 -name 'sess_*' -type f -cmin "+$gc_maxlifetime" -delete
+
+    # First find all open session files and touch them, hope it's not a massive amount of files
+    # shellcheck disable=SC2086
+    for pid in $(pidof ${proc_names}); do
+        find "/proc/${pid}/fd" -ignore_readdir_race -lname "${save_path}/sess_*" -exec touch -c "{}" ";" 2> /dev/null
+    done
+) \
+    | sort -r -n -t ":" -k 2,2 \
+    | sort -u -t ":" -k 1,1 \
+    | while IFS=":" read -r save_path gc_maxlifetime; do
+        # Find all files older then maxlifetime and delete them
+        find -O3 "${save_path}/" -ignore_readdir_race -depth -mindepth 1 -type f -name "sess_*" -cmin "+${gc_maxlifetime}" -delete
     done
 
 exit 0
+
