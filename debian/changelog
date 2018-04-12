@@ -1,3 +1,9 @@
+php-defaults (61) unstable; urgency=medium
+
+  * Drop PHP 7.0 and 7.1 from supported versions (Related to: #872998)
+
+ -- Ondřej Surý <ondrej@debian.org>  Thu, 12 Apr 2018 06:41:38 +0000
+
 php-defaults (60) unstable; urgency=medium
 
   * Start the soft-transition to PHP 7.2 by adding 7.2 to a list of
