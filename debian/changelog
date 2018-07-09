@@ -1,3 +1,9 @@
+php-defaults (62) unstable; urgency=medium
+
+  * Update the maintainer email to team+pkg-php@tracker.debian.org
+
+ -- Ondřej Surý <ondrej@debian.org>  Mon, 09 Jul 2018 12:15:20 +0000
+
 php-defaults (61) unstable; urgency=medium
 
   * Drop PHP 7.0 and 7.1 from supported versions (Related to: #872998)
