@@ -1,3 +1,9 @@
+php-defaults (65) unstable; urgency=medium
+
+  * Replace Debian's with latest in debian/control.in
+
+ -- Ondřej Surý <ondrej@debian.org>  Sun, 14 Oct 2018 09:16:11 +0000
+
 php-defaults (64) unstable; urgency=medium
 
   * Bump the PHP default and supported version to PHP 7.3
