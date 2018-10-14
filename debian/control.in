@@ -56,8 +56,6 @@ Architecture: all
 Depends: ${misc:Depends},
          @PHP_DEV_PACKAGES@
 Description: package depending on all supported PHP development packages
- The package currently depends on php@PHP_VERSION@-dev.
- .
  This package is a dependency package used as a build dependency for other
  packages to avoid hardcoded dependencies on specific PHP development
  packages.
