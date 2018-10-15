@@ -3,7 +3,7 @@ php-defaults (66) unstable; urgency=medium
   * Reinstate the postrm script to purge /var/lib/php on php-common
     purge
 
- -- Ondřej Surý <ondrej@debian.org>  Mon, 15 Oct 2018 11:27:43 +0000
+ -- Ondřej Surý <ondrej@debian.org>  Mon, 15 Oct 2018 11:28:14 +0000
 
 php-defaults (65) unstable; urgency=medium
 
