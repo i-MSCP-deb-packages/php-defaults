@@ -1,3 +1,9 @@
+php-defaults (67) unstable; urgency=medium
+
+  * Bump the epoch due to mistake
+
+ -- Ondřej Surý <ondrej@debian.org>  Mon, 15 Oct 2018 16:16:32 +0000
+
 php-defaults (66) unstable; urgency=medium
 
   * Reinstate the postrm script to purge /var/lib/php on php-common
