@@ -17,8 +17,8 @@ PHP_DEV_PACKAGES       := $(addprefix php,$(addsuffix -dev$(,),$(PHP_SUPPORTED_V
 
 PHP_COMMON_DIRS        := $(addprefix /etc/php/,$(addsuffix /mods-available,$(PHP_SUPPORTED_VERSIONS)))
 
-PHP_COMMON_DEB_VERSION := 1:$(DEB_VERSION)
-PHP_DEB_VERSION        := 1:$(PHP_DEFAULT_VERSION)+$(DEB_VERSION)
+PHP_COMMON_DEB_VERSION := 2:$(DEB_VERSION)
+PHP_DEB_VERSION        := 2:$(PHP_DEFAULT_VERSION)+$(DEB_VERSION)
 
 SED=sed
 
