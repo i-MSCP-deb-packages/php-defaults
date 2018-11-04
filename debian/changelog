@@ -1,3 +1,9 @@
+php-defaults (68) unstable; urgency=medium
+
+  * Make enabling/disabling modules silent (debug level)
+
+ -- Ondřej Surý <ondrej@debian.org>  Sun, 04 Nov 2018 04:09:45 +0000
+
 php-defaults (67) unstable; urgency=medium
 
   * Bump the epoch due to mistake
