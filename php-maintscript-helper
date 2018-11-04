@@ -247,7 +247,7 @@ php_invoke()
 			# b) it's a fresh install
 			PHP_NEED_ACTION=1
  			php$CMD -m -v "$version" -s "$sapi" -q "$MOD" > /dev/null 2>&1 || return 1
-			php_msg "info" "php_invoke: Enabled module $MOD for $sapi sapi"
+			php_msg "debug" "php_invoke: Enabled module $MOD for $sapi sapi"
 		    fi
 		    ;;
 		dismod)
@@ -261,7 +261,7 @@ php_invoke()
 			elif [ "$PHP_MAINTSCRIPT_NAME" = 'postrm' ] || [ "$PHP_MAINTSCRIPT_NAME" = 'prerm' ] ; then
 			    if [ "$PHP_MAINTSCRIPT_METHOD" = "remove" ] ; then
 				php$CMD -m -f -v "$version" -s "$sapi" -q "$MOD" || return 1
-				php_msg "info" "php_invoke $PHP_MAINTSCRIPT_NAME: Disabled module $MOD for PHP $version $sapi sapi"
+				php_msg "debug" "php_invoke $PHP_MAINTSCRIPT_NAME: Disabled module $MOD for PHP $version $sapi sapi"
 				PHP_NEED_ACTION=1
 			    fi
 			else
